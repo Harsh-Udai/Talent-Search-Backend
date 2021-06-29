@@ -300,5 +300,61 @@ Router.post('/VideosViews',auth,async(req,res)=>{
     }
 })
 
+Router.delete('/ImageDelete',auth,async(req,res)=>{
+    console.log(req.body);
+    try{
+
+        // const data = await DataImage.find({id:req.body.id})
+        const data = await DataImage.deleteOne({id:req.body.id})
+        res.send({msg:'done'});
+
+    }
+    catch(e){
+        res.status(500).send(e);
+    }
+})
+
+Router.delete('/VideoDelete',auth,async(req,res)=>{
+    console.log(req.body);
+    try{
+
+        // const data = await DataImage.find({id:req.body.id})
+        const data = await DataVideo.deleteOne({id:req.body.id})
+        res.send({msg:'done'});
+
+    }
+    catch(e){
+        res.status(500).send(e);
+    }
+})
+
+Router.delete('/VideoDelete',auth,async(req,res)=>{
+    console.log(req.body);
+    try{
+
+        // const data = await DataImage.find({id:req.body.id})
+        const data = await DataVideo.deleteOne({id:req.body.id})
+        res.send({msg:'done'});
+
+    }
+    catch(e){
+        res.status(500).send(e);
+    }
+})
+
+Router.delete('/ScriptDelete',auth,async(req,res)=>{
+    console.log(req.body);
+    try{
+
+        // const data = await DataImage.find({id:req.body.id})
+        const data = await DataScript.deleteOne({id:req.body.id})
+        res.send({msg:'done'}); 
+
+    }
+    catch(e){
+        res.status(500).send(e);
+    }
+})
+
 
 module.exports = Router;
