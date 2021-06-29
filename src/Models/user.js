@@ -38,7 +38,7 @@ userSchema.methods.generateAuthToken = async function(){
     const user  = this
     //console.log(user)
     
-    const token = jwt.sign({_id: user._id.toString()},'resourceManagementApp')
+    const token = jwt.sign({_id: user._id.toString()},'TSPBuilders')
     //console.log(token);
     
     user.init_token = token
@@ -48,29 +48,20 @@ userSchema.methods.generateAuthToken = async function(){
 }
 
 userSchema.statics.findByCredentials = async (email,password)=>{
-
     const user  = await User.findOne({Email: email})
-   
     if(!user){
         throw new Error('Unable to login /No User')
     }
-
-    
     const isMatch = await bcrypt.compare(password,user.Password);
-    
-
     if(!isMatch){
         throw new Error ('Unable to login /password issues')
     }
-
     return user
-
 }
 
 
 userSchema.pre('save',async function(next){
     const user = this
-    
     if(user.isModified('Password')){
         user.Password = await bcrypt.hash(user.Password,8)
     }

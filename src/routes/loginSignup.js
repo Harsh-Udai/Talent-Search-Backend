@@ -4,7 +4,6 @@ const User = require('../Models/user');
 const{sendWelcomeEmail,cancelEmail,securityM} = require('../email/account')
 const otpGen = require('otp-generator')
 
-
 // Hello World Router
 Router.get('/',(req,res)=>{
     res.send("Hello World!");
@@ -12,10 +11,10 @@ Router.get('/',(req,res)=>{
 
 Router.post('/Signup/email',async(req,res)=>{
     try{
-        
         const checkUp = await User.find({Email: req.body.Email});
-        
-        if(checkUp.length===0){
+        const checkUp1 = await User.find({Email: req.body.Email.toLowerCase()})
+
+        if(checkUp.length===0 && checkUp1.length===0){
             const otp = otpGen.generate(6,{upperCase:false,alphabets:false});
             sendWelcomeEmail(req.body.Email,'');
             securityM(req.body.Email,otp);
@@ -31,7 +30,6 @@ Router.post('/Signup/email',async(req,res)=>{
 })
 
 Router.post('/Signup/create',async (req,res)=>{
-    
     const user = new User(req.body)   // Data recieve from the request
     try{
         await user.save()
@@ -46,9 +44,7 @@ Router.post('/Login',async(req,res)=>{
     try{
         const Email = req.body.Email;
         const Password = req.body.Password;
-        
         const user  = await User.findByCredentials(Email,Password)
-        //console.log(user)
         res.status(200).send(user)
     }
     catch(e){
@@ -76,21 +72,14 @@ Router.post('/Reset/email',async(req,res)=>{
 
 Router.post('/Reset/update',async(req, res)=>{
     try{
-        
         const checkUp = await User.find({Email: req.body.Email});
-        
         checkUp[0].Password =  (req.body.Password)
-
-        
         await checkUp[0].save();
-        
         res.send({msg:'Done'})
-
     }
     catch(e){
         res.send("error")
     }   
 })
-
 
 module.exports = Router;

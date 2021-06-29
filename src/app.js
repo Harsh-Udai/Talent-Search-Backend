@@ -10,6 +10,8 @@ require('./database/mongoose');
 
 // Importing Routes
 const loginSignup = require('./routes/loginSignup');
+const DataUpload = require('./routes/DataUpload');
 app.use(loginSignup);
+app.use(DataUpload);
 
 module.exports = app;
