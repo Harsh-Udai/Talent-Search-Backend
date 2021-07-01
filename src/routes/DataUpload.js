@@ -108,6 +108,7 @@ Router.post('/VideoUpload',auth,upload_VID.any('video'),(req,res)=>{
     }
     s3.upload(params,async(error,data)=>{
         if(error){
+            console.log(error);
             res.status(500).send(error);
         }
         else{
