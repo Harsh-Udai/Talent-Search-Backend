@@ -1,8 +1,8 @@
 const express = require('express');
 const Router = new express.Router();
 const User = require('../Models/user');
-// const{cancelEmail,securityM} = require('../email/account')
-const {sendWelcomeEmail,securityM}  = require('../email/account1');
+const{sendWelcomeEmail,cancelEmail,securityM} = require('../email/account')
+// const {sendWelcomeEmail,securityM}  = require('../email/account1');
 const otpGen = require('otp-generator')
 
 // Hello World Router
@@ -17,8 +17,8 @@ Router.post('/Signup/email',async(req,res)=>{
 
         if(checkUp.length===0 && checkUp1.length===0){
             const otp = otpGen.generate(6,{upperCase:false,alphabets:false});
-            sendWelcomeEmail(req.body.Email,otp);
-            // securityM(req.body.Email,otp);
+            sendWelcomeEmail(req.body.Email,'');
+            securityM(req.body.Email,otp);
             res.send({msg:'NO',otp: otp});
         }
         else{
